@@ -36,6 +36,10 @@
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.z = 7;
 
+    let axes = new THREE.AxesHelper(5)
+
+    scene.add(axes);
+
     createCube()
 
     // create the renderer
@@ -51,6 +55,7 @@
   let mainLoop = function(){
     // cube.position.x += ADD;
     // cube.rotation.x += ADD;
+    camera.position.x = 2;
     cube.rotation.y += ADD;
 
     setTimeout(()=>{
@@ -59,6 +64,7 @@
 
     setTimeout(()=>{
       camera.position.y -= .01;
+      cube.position.z += .01;
     }, 5000)
 
     // if(camera.position.z >= 5){
