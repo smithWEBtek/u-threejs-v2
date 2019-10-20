@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="">
   <title>Document</title>
   <style>
-    body { margin: 0; }
-    canvas { width: 100%; height: 100% }
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%
+    }
   </style>
 </head>
+
 <body>
   <div id="main"></div>
   <script src='../three.js'></script>
   <script>
     let scene, camera, renderer;
     let donuts = [];
-    let ADD  = 0.03;
+    let ADD = 0.03;
 
-    let randomInRange = function(from, to){
+    let randomInRange = function (from, to) {
       let x = Math.random(3) * (to - from);
       return x + from;
     }
 
-    let createDonut = function(from, to) {
+    let createDonut = function (from, to) {
       // let geometry = new THREE.TorusGeometry(5, 1, 2, 20, 2 * Math.PI);
       let geometry = new THREE.TorusGeometry(1, 0.5, 5, 30)
-      let material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff});
+      let material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
 
-      let donut = new THREE.Mesh( geometry, material );
+      let donut = new THREE.Mesh(geometry, material);
       donut.position.x = randomInRange(-15, 15)
       donut.position.z = randomInRange(-15, 15)
 
@@ -37,36 +46,37 @@
       donuts.push(donut)
     }
 
-    let init = function(){
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    let init = function () {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.z = 12;
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+      camera.position.z = 12;
 
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
 
-    document.body.appendChild(renderer.domElement);
-  };
+      document.body.appendChild(renderer.domElement);
+    };
 
-  let mainLoop = function(){
-    let x = Math.random()
+    let mainLoop = function () {
+      let x = Math.random()
 
-    if(x < 0.01){
-      createDonut()
-    }
+      if (x < 0.01) {
+        createDonut()
+      }
 
-    donuts.forEach(d => d.position.y -= ADD);
+      donuts.forEach(d => d.position.y -= ADD);
 
-    renderer.render(scene, camera);
-    requestAnimationFrame(mainLoop)
-  };
+      renderer.render(scene, camera);
+      requestAnimationFrame(mainLoop)
+    };
 
-  init();
-  mainLoop();
+    init();
+    mainLoop();
 
   </script>
 </body>
+
 </html>
