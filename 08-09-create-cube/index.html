@@ -13,18 +13,19 @@
     }
 
     canvas {
-      width: 100%;
-      height: 100%
+      width: 80%;
+      height: 80%
     }
   </style>
 </head>
 
 <body>
   <div id="main"></div>
+
   <script src='../three.js'></script>
   <script>
     // set up the environment
-    // initialize scene, camera objects and rendere
+    // initialize scene, camera objects and renderer
     let scene, camera, renderer;
     let ADD = 0.03;
 
@@ -47,7 +48,6 @@
 
       createCube()
 
-
       // create the renderer
       renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -56,7 +56,6 @@
     };
 
     // main animation loop - calls 50-60 in a second.
-
     let counter = .001;
     let mainLoop = function () {
       cube.position.x += ADD;
@@ -81,7 +80,7 @@
         cube.material.color = new THREE.Color(0x000000)
       }
 
-      if (counter > 90) {
+      if (counter > 70) {
         cube.material.color = new THREE.Color(0xFF0000)
       }
 
@@ -91,7 +90,6 @@
 
     init();
     mainLoop();
-
   </script>
 </body>
 

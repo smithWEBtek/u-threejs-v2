@@ -16,11 +16,34 @@
       width: 100%;
       height: 100%
     }
+
+    .buttons {
+      margin-top: 100px;
+    }
+
+    .button {
+      background-color: rgb(201, 243, 147);
+      border: 1px solid green;
+      border-radius: 11px;
+      color: green;
+      font-size: 1rem;
+      font-weight: bold;
+      height: 50px;
+      margin-bottom: 10px;
+      padding: 10px;
+      width: 200px;
+    }
   </style>
 </head>
 
 <body>
-  <div id="main"></div>
+  <div id="main">
+    <div class="buttons">
+      <button class="button" id="vertical">Rotate Vertically</button>
+      <button class="button" id="horizontal">Rotate Horizontally</button>
+      <button class="button" id="both">Rotate Both</button>
+    </div>
+  </div>
   <script src='../three.js'></script>
   <script>
     let scene, camera, renderer;
@@ -29,9 +52,9 @@
     let createSphere = function () {
       // PHI: horizontal sweep
       // THETA: vertical sweep
-      let geometry = new THREE.TorusGeometry(5, 30, 30,
-        0, Math.PI / 2,
-        0, Math.PI / 2);
+      let geometry = new THREE.SphereGeometry(5, 20, 20,
+        // 0, Math.PI);
+        0, Math.PI);
       let material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
       sphere = new THREE.Mesh(geometry, material);
       scene.add(sphere);
@@ -52,11 +75,28 @@
       document.body.appendChild(renderer.domElement);
     };
 
+    let buttons = document.querySelectorAll('button');
+    [...buttons].forEach((b) => b.addEventListener('click', (e) => {
+      e.preventDefault()
+      let action = e.currentTarget.id
+      if (action === "vertical") {
+        sphere.rotation.y = ADD += .01;
+      } else if (action === "horizontal") {
+        sphere.rotation.x = ADD + - .01;
+      } else if (action === "both") {
+        sphere.rotation.y = ADD += .01;
+        sphere.rotation.x = ADD + - .01;
+      }
+    })
+    );
+
+
     let mainLoop = function () {
-      sphere.rotation.y = ADD += .01;
+      // sphere.rotation.y = ADD += .01;
       // sphere.rotation.y = ADD -= .01;
-      sphere.rotation.x = ADD += .01;
-      // sphere.rotation.y = ADD -= .01;
+      // sphere.rotation.x = ADD += .01;
+      // sphere.rotation.x = ADD -= .001;
+
       renderer.render(scene, camera);
       requestAnimationFrame(mainLoop)
     };
