@@ -24,20 +24,38 @@
   <script src='../three.js'></script>
   <script>
     let scene, camera, renderer;
+    let rings = [];
     let ADD = 0.01;
 
-    let createTorus = function () {
+    let createSaturn = function () {
+      let geometry = new THREE.SphereGeometry(4, 30, 30);
+      let material = new THREE.MeshBasicMaterial({ color: 0x8d5524});
 
-      // let geometry = new THREE.TorusGeometry(5, 1, 2, 20, 2 * Math.PI);
-      // let geometry = new THREE.TorusGeometry(5, 1, 2, 60, 2 * Math.PI);
-      let geometry = new THREE.TorusGeometry(4, 0.5, 5, 30)
+      planet = new THREE.Mesh(geometry, material)
+      scene.add(planet);
 
-      // change the arc to 180deg
-      // let geometry = new THREE.TorusGeometry(5, 1, 30, 30, Math.PI);
+      geometry = new THREE.TorusGeometry(5.1, 0.7, 2, 50)
+      material = new THREE.MeshBasicMaterial({ color: 0xffe39f});
+      let ring = new THREE.Mesh(geometry, material);
+      rings.push(ring);
 
-      let material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      torus = new THREE.Mesh(geometry, material);
-      scene.add(torus);
+      geometry = new THREE.TorusGeometry(6.9, 0.7, 2, 50)
+      material = new THREE.MeshBasicMaterial({ color: 0xffad60});
+      ring = new THREE.Mesh(geometry, material);
+      rings.push(ring);
+
+      geometry = new THREE.TorusGeometry(8.5, 0.7, 2, 50)
+      material = new THREE.MeshBasicMaterial({ color: 0xeac086});
+      ring = new THREE.Mesh(geometry, material);
+      rings.push(ring);
+
+      rings.forEach(ring =>{
+        ring.rotation.x = 1.7;
+        ring.rotation.y = 0.5;
+        scene.add(ring);
+      });
+
+      camera.position.z = 39
     }
 
     let init = function () {
@@ -47,7 +65,10 @@
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
       camera.position.z = 20;
 
-      createTorus()
+      createSaturn();
+
+      let axes = new THREE.AxesHelper(5)
+      scene.add(axes)
 
       renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -56,9 +77,10 @@
     };
 
     let mainLoop = function () {
-      // torus.rotation.x = 270
-      torus.rotation.y = 309
-
+      camera.position.y += ADD;
+      if(camera.position.y >=   5 || camera.position.y <= -5){
+          ADD *= -1;
+        };
       renderer.render(scene, camera);
       requestAnimationFrame(mainLoop)
     };
